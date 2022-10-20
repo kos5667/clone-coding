@@ -42,7 +42,7 @@ babel plugin을 모아둔 프리셋.
 > - `@babel/cli` : 커맨드라인에서 파일을 컴파일하게 해주는 CLI 제공
 > - `@babel/node` : 코드의 변환과 node 실행을 같이 하는 패키지
 > - `@babel/preset-env` :  Babel플러그인을 모아둔 것으로 Babel프리셋이라고 부르며 공식 프리셋은 다음과 같다.
->   - `@babel/preset-env` :
+>   - `@babel/preset-env` 
 >   - ` @babel/preset-flow`
 >   - `@babel/preset-react`
 >   -  `@babel/preset-typescript`
