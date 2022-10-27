@@ -59,4 +59,6 @@ babel plugin을 모아둔 프리셋.
 
 ### SocketIO
 
+socket io callback function은 backend에서 처리하지 말고 front로 돌려보내서 처리하는것이 좋다.
+(보안상 좋지않음)
 
