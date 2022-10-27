@@ -20,7 +20,12 @@ function onSocketClose() {
 }
 
 io.on("connection", (socket) => {
-    console.log(socket);
+    socket.on("enter_room", (msg, done) => {
+        console.log(msg);
+        setTimeout(() => {
+            done();
+        }, 5000)
+    })
 })
 
 // Web socket
