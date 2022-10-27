@@ -7,7 +7,7 @@ function handleRoomSubmit(event) {
     event.preventDefault();
     const input = form.querySelector("input");
     socket.emit("enter_room", {payload: input.value}, () => {
-        console.log("server is done!")
+        console.log("backend done!")
     })
     input.value = "";
 }

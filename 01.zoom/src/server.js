@@ -19,12 +19,11 @@ function onSocketClose() {
     console.log("Disconnected from Browser!!")
 }
 
+// front에서 보낸 callback function은 backend에서 처리 하는것 보다는 front로 돌려보내 처리
+// backend에서 처리하는 것은 보안상 좋지않음.
 io.on("connection", (socket) => {
-    socket.on("enter_room", (msg, done) => {
-        console.log(msg);
-        setTimeout(() => {
-            done();
-        }, 5000)
+    socket.on("enter_room", (roomName, done) => {
+        console.log(roomName);
     })
 })
 
