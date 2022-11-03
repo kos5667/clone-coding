@@ -34,6 +34,10 @@ function publicRooms() {
     return publicRooms;
 }
 
+function countRoom(roomName) {
+    return io.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 // front에서 보낸 callback function은 backend에서 처리 하는것 보다는 front로 돌려보내 처리
 // backend에서 처리하는 것은 보안상 좋지않음.
 io.on("connection", (socket) => {
@@ -45,13 +49,13 @@ io.on("connection", (socket) => {
     socket.on("enter_room", (roomName, done) => {
         socket.join(roomName);
         done();
-        socket.to(roomName).emit("welcome", socket.nickname);
+        socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));
         io.sockets.emit("room_change", publicRooms());
     })
 
     socket.on("disconnecting", () => {
         socket.rooms.forEach(room => 
-            socket.to(room).emit("bye", socket.nickname)
+            socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1)
         );
     })
     socket.on("disconnect", () => {
