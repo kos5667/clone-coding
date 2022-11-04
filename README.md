@@ -8,3 +8,10 @@
 
 ### 2. React Native
 
+- expo
+
+  ```bash
+  npm install --global expo-cli
+  ```
+
+- ff
