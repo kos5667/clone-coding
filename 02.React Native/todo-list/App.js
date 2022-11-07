@@ -7,7 +7,9 @@ import {
   TouchableOpacity, 
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 import { theme } from './colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,15 +25,17 @@ export default function App() {
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (payload) => setText(payload)
+
   const saveToDos = async (toSave) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toSave))
   }
+
   const loadToDos = async () => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
     setToDos(JSON.parse(s));
   }
   
-  const addToDo = async () => {
+  const addToDo = async() => {
     if (text === '')
       return
 
@@ -45,6 +49,17 @@ export default function App() {
     setText('');
   }
 
+  const deleteToDo = (key) => {
+    Alert.alert('Delete To Do', 'Are you sure?',[
+      {text: 'Cancel'},
+      {text: 'Sure', onPress: () => {
+        const newToDos = {...toDos}
+        delete newToDos[key];
+        setToDos(newToDos);
+        saveToDos(newToDos); 
+      }}
+    ])
+  }
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -71,6 +86,9 @@ export default function App() {
             toDos[key].working === working ? (
               <View key={key} style={styles.toDo}>
                 <Text style={styles.toDoText}>{toDos[key].text}</Text>
+                <TouchableOpacity onPress={() => deleteToDo(key)}>
+                  <Text><EvilIcons name="trash" size={24} color="white"/></Text>
+                </TouchableOpacity>
               </View>
             ) : null
           )
@@ -110,6 +128,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 40,
     borderRadius: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   toDoText: {
     color: 'white',
