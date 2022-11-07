@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -9,15 +9,29 @@ import {
   ScrollView,
 } from 'react-native';
 import { theme } from './colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const STORAGE_KEY = '@toDos';
 
 export default function App() {
   const [working, setWorking] = useState(true)
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
+  useEffect(() => {
+    loadToDos();
+  }, []);
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (payload) => setText(payload)
-  const addToDo = () => {
+  const saveToDos = async (toSave) => {
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toSave))
+  }
+  const loadToDos = async () => {
+    const s = await AsyncStorage.getItem(STORAGE_KEY);
+    setToDos(JSON.parse(s));
+  }
+  
+  const addToDo = async () => {
     if (text === '')
       return
 
@@ -27,9 +41,10 @@ export default function App() {
     const newToDos = {...toDos, [Date.now()]: {text, working}};
 
     setToDos(newToDos);
+    await saveToDos(newToDos); 
     setText('');
   }
-  console.log(toDos);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
