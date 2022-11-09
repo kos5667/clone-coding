@@ -3,10 +3,12 @@ let tweets = [
     {
         id: "1",
         text: "first one",
+        userId:"1"
     },
     {
         id: "2",
         text: "second one",
+        userId:"2"
     },
 ]
 
@@ -14,7 +16,7 @@ let users = [
     {
         id: "1",
         firstName: "park",
-        lastName: "don"
+        lastName: "don",
     },
     {
         id: "2",
@@ -76,10 +78,15 @@ const resolvers = {
         }
     },
     User: {
-        fullName(root) {
-            return "hello";
+        fullName({ firstName, lastName}) {
+            return `${firstName} ${lastName}`;
         },
-    }
+    },
+    Tweet: {
+        author({userId}) {
+            return users.find((user) => user.id === userId);
+        },
+    },
 }
 
 const server = new ApolloServer({ typeDefs, resolvers })
