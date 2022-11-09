@@ -12,7 +12,7 @@ const typeDefs = gql`
     }
     type Query {
         allTweets: [Tweet]
-        tweet(id: ID) : Tweet
+        tweet(id: ID!) : Tweet!
     }
     type Mutation {
         postTweet(text: String, userId: ID): Tweet
