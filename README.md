@@ -8,7 +8,11 @@
 
 ### 2. React Native
 
-- expo
+- todo-list
+
+- weather-app
+
+- 
 
   ```bash
   npm install --global expo-cli
